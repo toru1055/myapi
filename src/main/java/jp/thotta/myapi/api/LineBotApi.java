@@ -30,8 +30,12 @@ public class LineBotApi {
         System.out.println("event: " + event);
         double lat = event.getMessage().getLatitude();
         double lon = event.getMessage().getLongitude();
-        double elevation = elevationService.getElevation(lat, lon);
-        return new TextMessage("その場所の標高は、 " + elevation + " m です。");
+        Double elevation = elevationService.getElevation(lat, lon);
+        if (elevation != null) {
+            return new TextMessage("その場所の標高は、 \n" + elevation + " m です。");
+        } else {
+            return new TextMessage("その場所の標高は、 \n不明 です。");
+        }
     }
 
     @EventMapping

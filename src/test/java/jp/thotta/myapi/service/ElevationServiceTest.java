@@ -19,8 +19,8 @@ public class ElevationServiceTest {
 
     @Test
     public void getElevation() throws Exception {
-        double elevation = elevationService.getElevation(35.360556, 138.727778);
-        assertEquals(3751.9, elevation, 1.0);
+        assertEquals(elevationService.getElevation(35.360556, 138.727778), 3751.9, 1.0);
+        assertEquals(elevationService.getElevation(58.105575324447756, 102.72617552429438), 0.0, 1.0);
     }
 
 }
