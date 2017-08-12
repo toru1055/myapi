@@ -8,12 +8,17 @@ import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
+import jp.thotta.myapi.service.ElevationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by thotta on 2017/08/12.
  */
 @LineMessageHandler
 public class LineBotApi {
+    @Autowired
+    private ElevationService elevationService;
+
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
@@ -23,9 +28,10 @@ public class LineBotApi {
     @EventMapping
     public TextMessage handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
         System.out.println("event: " + event);
-        String lat = String.format("緯度: %.3f", event.getMessage().getLatitude());
-        String lon = String.format("経度: %.3f", event.getMessage().getLongitude());
-        return new TextMessage(lat + "\n" + lon);
+        double lat = event.getMessage().getLatitude();
+        double lon = event.getMessage().getLongitude();
+        double elevation = elevationService.getElevation(lat, lon);
+        return new TextMessage("その場所の標高は、 " + elevation + " m です。");
     }
 
     @EventMapping
