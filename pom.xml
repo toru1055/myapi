@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>demo</name>
+	<name>myapi</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -34,6 +34,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.linecorp.bot/line-bot-spring-boot -->
+		<dependency>
+			<groupId>com.linecorp.bot</groupId>
+			<artifactId>line-bot-spring-boot</artifactId>
+            <version>1.8.0</version>
 		</dependency>
 	</dependencies>
 
