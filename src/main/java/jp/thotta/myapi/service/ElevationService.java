@@ -1,6 +1,8 @@
 package jp.thotta.myapi.service;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TextMessage;
 import jp.thotta.myapi.domain.Elevation;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +26,15 @@ public class ElevationService {
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
+        }
+    }
+
+    public Message getElevationMessage(double lat, double lon) {
+        Double elevation = getElevation(lat, lon);
+        if (elevation == null) {
+            return new TextMessage("その場所の標高は、 \n不明 です。");
+        } else {
+            return new TextMessage("その場所の標高は、 \n" + elevation + " m です。");
         }
     }
 }
