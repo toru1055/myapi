@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import se.walkercrou.places.*;
+import se.walkercrou.places.exception.NoResultsFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ public class LocationSearchRepository {
         return place.getIconUrl();
     }
 
-    public List<LocationSearchResult> findNearbyHospitals(double lat, double lon) {
+    public List<LocationSearchResult> findNearbyHospitals(double lat, double lon) throws NoResultsFoundException {
         return findNearbyRankedByDistance(
                 lat, lon,
                 Param.name("language").value("ja"),
@@ -53,7 +54,7 @@ public class LocationSearchRepository {
         );
     }
 
-    public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) {
+    public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) throws NoResultsFoundException {
         GooglePlaces client = new GooglePlaces(API_KEY);
         List<LocationSearchResult> locationResults = new ArrayList<>();
         System.out.println("[DEBUG] findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
