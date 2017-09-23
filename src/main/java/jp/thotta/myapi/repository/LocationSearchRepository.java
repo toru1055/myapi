@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import se.walkercrou.places.*;
-import se.walkercrou.places.exception.NoResultsFoundException;
+import se.walkercrou.places.exception.GooglePlacesException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +72,7 @@ public class LocationSearchRepository {
                 locationResults.add(result);
             }
             System.out.println("[DEBUG] LocationSearchResult is created");
-        } catch (NoResultsFoundException e) {
+        } catch (GooglePlacesException e) {
             System.out.println("[WARN] " + e.getMessage());
         }
         return locationResults;
