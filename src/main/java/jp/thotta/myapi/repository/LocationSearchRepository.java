@@ -9,6 +9,7 @@ import se.walkercrou.places.*;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -63,7 +64,9 @@ public class LocationSearchRepository {
 
     public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) {
         List<LocationSearchResult> locationResults = new ArrayList<>();
+        System.out.println(new Date() + ": findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
         List<Place> places = client.getNearbyPlacesRankedByDistance(lat, lon, 5, params);
+        System.out.println(new Date() + ": findNearbyRankedByDistance is done");
         for (Place place : places) {
             LocationSearchResult result = new LocationSearchResult();
             result.setName(place.getName());
@@ -74,6 +77,7 @@ public class LocationSearchRepository {
             result.setImageUrl(toImageUrl(place));
             locationResults.add(result);
         }
+        System.out.println(new Date() + ": LocationSearchResult is created");
         return locationResults;
     }
 }
