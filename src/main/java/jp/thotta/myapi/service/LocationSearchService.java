@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by thotta on 2017/09/23.
+ * Created by thotta on 2017/09/23..
  */
 @Service
 public class LocationSearchService {
