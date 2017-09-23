@@ -5,7 +5,7 @@
 
 	<groupId>jp.thotta</groupId>
 	<artifactId>myapi</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>myapi</name>
@@ -53,6 +53,12 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>se.walkercrou</groupId>
+			<artifactId>google-places-api-java</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>

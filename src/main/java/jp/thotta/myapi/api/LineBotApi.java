@@ -6,13 +6,13 @@ import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
-import com.linecorp.bot.model.message.LocationMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import jp.thotta.myapi.service.ElevationService;
+import jp.thotta.myapi.service.LocationSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import retrofit2.Response;
 
@@ -31,6 +31,9 @@ public class LineBotApi {
     @Autowired
     private LineMessagingService lineMessagingService;
 
+    @Autowired
+    private LocationSearchService locationSearchService;
+
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
@@ -44,6 +47,7 @@ public class LineBotApi {
         double lon = event.getMessage().getLongitude();
         List<Message> messages = new ArrayList<>();
         messages.add(elevationService.getElevationMessage(lat, lon));
+        messages.add(locationSearchService.getNearbyHospitalsMessage(lat, lon));
         Response<BotApiResponse> response = lineMessagingService.replyMessage(
                 new ReplyMessage(event.getReplyToken(), messages)
         ).execute();
