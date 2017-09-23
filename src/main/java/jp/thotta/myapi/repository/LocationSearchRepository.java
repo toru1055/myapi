@@ -46,7 +46,7 @@ public class LocationSearchRepository {
         return place.getIconUrl();
     }
 
-    public List<LocationSearchResult> findNearbyHospitals(double lat, double lon) throws NoResultsFoundException {
+    public List<LocationSearchResult> findNearbyHospitals(double lat, double lon) {
         return findNearbyRankedByDistance(
                 lat, lon,
                 Param.name("language").value("ja"),
@@ -54,23 +54,27 @@ public class LocationSearchRepository {
         );
     }
 
-    public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) throws NoResultsFoundException {
+    public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) {
         GooglePlaces client = new GooglePlaces(API_KEY);
         List<LocationSearchResult> locationResults = new ArrayList<>();
         System.out.println("[DEBUG] findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
-        List<Place> places = client.getNearbyPlacesRankedByDistance(lat, lon, 5, params);
-        System.out.println("[DEBUG] findNearbyRankedByDistance is done");
-        for (Place place : places) {
-            LocationSearchResult result = new LocationSearchResult();
-            result.setName(place.getName());
-            result.setAddress(place.getVicinity());
-            result.setLatitude(place.getLatitude());
-            result.setLongitude(place.getLongitude());
-            result.setMapUrl(GOOGLE_MAP_URL_WITH_PLACE_ID + place.getPlaceId());
-            result.setImageUrl(toImageUrl(place));
-            locationResults.add(result);
+        try {
+            List<Place> places = client.getNearbyPlacesRankedByDistance(lat, lon, 5, params);
+            System.out.println("[DEBUG] findNearbyRankedByDistance is done");
+            for (Place place : places) {
+                LocationSearchResult result = new LocationSearchResult();
+                result.setName(place.getName());
+                result.setAddress(place.getVicinity());
+                result.setLatitude(place.getLatitude());
+                result.setLongitude(place.getLongitude());
+                result.setMapUrl(GOOGLE_MAP_URL_WITH_PLACE_ID + place.getPlaceId());
+                result.setImageUrl(toImageUrl(place));
+                locationResults.add(result);
+            }
+            System.out.println("[DEBUG] LocationSearchResult is created");
+        } catch (NoResultsFoundException e) {
+            System.out.println("[WARN] " + e.getMessage());
         }
-        System.out.println("[DEBUG] LocationSearchResult is created");
         return locationResults;
     }
 }
