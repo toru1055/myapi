@@ -27,7 +27,7 @@ public class LocationSearchRepository {
 
     @PostConstruct
     private void initialize() {
-        client = new GooglePlaces(API_KEY);
+//        client = new GooglePlaces(API_KEY);
     }
 
     private String toImageUrlFromPhotoReference(String photoReference) {
@@ -63,10 +63,11 @@ public class LocationSearchRepository {
     }
 
     public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) {
+        client = new GooglePlaces(API_KEY);
         List<LocationSearchResult> locationResults = new ArrayList<>();
-        System.out.println(new Date() + ": findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
+        System.out.println("findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
         List<Place> places = client.getNearbyPlacesRankedByDistance(lat, lon, 5, params);
-        System.out.println(new Date() + ": findNearbyRankedByDistance is done");
+        System.out.println("findNearbyRankedByDistance is done");
         for (Place place : places) {
             LocationSearchResult result = new LocationSearchResult();
             result.setName(place.getName());
@@ -77,7 +78,7 @@ public class LocationSearchRepository {
             result.setImageUrl(toImageUrl(place));
             locationResults.add(result);
         }
-        System.out.println(new Date() + ": LocationSearchResult is created");
+        System.out.println("LocationSearchResult is created");
         return locationResults;
     }
 }
