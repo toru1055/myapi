@@ -46,7 +46,8 @@ public class LineBotApi {
         double lat = event.getMessage().getLatitude();
         double lon = event.getMessage().getLongitude();
         List<Message> messages = new ArrayList<>();
-        //messages.add(elevationService.getElevationMessage(lat, lon));
+        messages.add(elevationService.getElevationMessage(lat, lon));
+        messages.add(new TextMessage("病院検索結果"));
         messages.add(locationSearchService.getNearbyHospitalsMessage(lat, lon));
         Response<BotApiResponse> response = lineMessagingService.replyMessage(
                 new ReplyMessage(event.getReplyToken(), messages)

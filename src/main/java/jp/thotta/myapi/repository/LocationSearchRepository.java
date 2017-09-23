@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import se.walkercrou.places.*;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,13 +20,6 @@ public class LocationSearchRepository {
 
     @Value("${google.places.api.key}")
     private String API_KEY;
-
-    private GooglePlaces client;
-
-    @PostConstruct
-    private void initialize() {
-//        client = new GooglePlaces(API_KEY);
-    }
 
     private String toImageUrlFromPhotoReference(String photoReference) {
         String uri = String.format(
@@ -63,11 +54,11 @@ public class LocationSearchRepository {
     }
 
     public List<LocationSearchResult> findNearbyRankedByDistance(double lat, double lon, Param... params) {
-        client = new GooglePlaces(API_KEY);
+        GooglePlaces client = new GooglePlaces(API_KEY);
         List<LocationSearchResult> locationResults = new ArrayList<>();
-        System.out.println("findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
+        System.out.println("[DEBUG] findNearbyRankedByDistance: lat=" + lat + ", lon=" + lon);
         List<Place> places = client.getNearbyPlacesRankedByDistance(lat, lon, 5, params);
-        System.out.println("findNearbyRankedByDistance is done");
+        System.out.println("[DEBUG] findNearbyRankedByDistance is done");
         for (Place place : places) {
             LocationSearchResult result = new LocationSearchResult();
             result.setName(place.getName());
@@ -78,7 +69,7 @@ public class LocationSearchRepository {
             result.setImageUrl(toImageUrl(place));
             locationResults.add(result);
         }
-        System.out.println("LocationSearchResult is created");
+        System.out.println("[DEBUG] LocationSearchResult is created");
         return locationResults;
     }
 }
