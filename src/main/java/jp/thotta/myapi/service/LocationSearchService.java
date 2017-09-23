@@ -1,6 +1,7 @@
 package jp.thotta.myapi.service;
 
 import com.linecorp.bot.model.action.Action;
+import com.linecorp.bot.model.action.MessageAction;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TemplateMessage;
@@ -11,6 +12,7 @@ import jp.thotta.myapi.repository.LocationSearchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.TextAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class LocationSearchService {
         List<CarouselColumn> carouselColumns = new ArrayList<>();
         for (LocationSearchResult hospital : hospitals) {
             List<Action> actions = new ArrayList<>();
-            actions.add(new URIAction("詳細", hospital.getMapUrl()));
+            actions.add(new URIAction("地図へ", hospital.getMapUrl()));
+            actions.add(new MessageAction("住所表示", hospital.getAddress()));
             CarouselColumn carouselColumn = new CarouselColumn(
                     hospital.getImageUrl(),
                     hospital.getName(),
